@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Gestión de Inventarios";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Gestión de Inventarios</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active">Inventarios</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            Aquí puedes gestionar los inventarios. Usa la tabla a continuación para ver, agregar o editar los productos.
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Inventarios de Productos
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Fecha de Ingreso</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Fecha de Ingreso</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>Producto 1</td>
+                        <td>Categoría 1</td>
+                        <td>100</td>
+                        <td>$10.00</td>
+                        <td>2023/09/15</td>
+                    </tr>
+                    <!-- Aquí puedes agregar más filas de productos -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="~/js/datatables-simple-demo.js"></script>
+}

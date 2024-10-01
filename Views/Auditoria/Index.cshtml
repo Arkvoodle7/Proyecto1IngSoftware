@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Gestión de Auditoría";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Gestión de Auditoría</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active">Auditoría</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            Aquí puedes gestionar los registros de auditoría del sistema. Usa la tabla a continuación para revisar los eventos de auditoría.
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Registros de Auditoría
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Acción</th>
+                        <th>Fecha</th>
+                        <th>IP</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Acción</th>
+                        <th>Fecha</th>
+                        <th>IP</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>Usuario1</td>
+                        <td>Inicio de sesión</td>
+                        <td>2024/01/01</td>
+                        <td>192.168.1.1</td>
+                    </tr>
+                    <!-- Aquí puedes agregar más registros de auditoría -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="~/js/datatables-simple-demo.js"></script>
+}

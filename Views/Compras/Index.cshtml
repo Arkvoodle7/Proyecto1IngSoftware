@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Gestión de Compras";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Gestión de Compras</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active">Compras</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            En esta sección puedes gestionar las compras. Usa la tabla a continuación para ver, agregar o editar las compras realizadas.
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Compras Registradas
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Proveedor</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Fecha de Compra</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Proveedor</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Fecha de Compra</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>Producto A</td>
+                        <td>Proveedor X</td>
+                        <td>50</td>
+                        <td>$500.00</td>
+                        <td>2024/01/01</td>
+                    </tr>
+                    <!-- Más registros de compras -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="~/js/datatables-simple-demo.js"></script>
+}
