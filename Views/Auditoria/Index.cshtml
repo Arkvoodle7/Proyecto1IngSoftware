@@ -4,48 +4,81 @@
 
 <div class="container-fluid px-4">
     <h1 class="mt-4">Gestión de Auditoría</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Dashboard">Dashboard</a></li>
-        <li class="breadcrumb-item active">Auditoría</li>
-    </ol>
+    <h3 class="mt-4"></h3>
+
+    <!-- Filtros de Auditoría -->
     <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-filter me-1"></i>
+            Filtros de Auditoría
+        </div>
         <div class="card-body">
-            Aquí puedes gestionar los registros de auditoría del sistema. Usa la tabla a continuación para revisar los eventos de auditoría.
+            <form asp-action="FiltrarAuditoria" method="post">
+                <div class="row">
+                    <!-- Filtro de Usuario -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="usuario">Usuario</label>
+                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Nombre de usuario">
+                        </div>
+                    </div>
+                    <!-- Filtro de rango de fechas -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="fechaInicio">Fecha de Inicio</label>
+                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="fechaFin">Fecha de Fin</label>
+                            <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+
+    <!-- Tabla de Auditoría -->
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Registros de Auditoría
+            Historial de Auditoría
         </div>
         <div class="card-body">
-            <table id="datatablesSimple">
+            <table id="datatablesSimple" class="table table-striped">
                 <thead>
                     <tr>
+                        <th>Fecha</th>
                         <th>Usuario</th>
                         <th>Acción</th>
-                        <th>Fecha</th>
-                        <th>IP</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Acción</th>
-                        <th>Fecha</th>
-                        <th>IP</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     <tr>
-                        <td>Usuario1</td>
-                        <td>Inicio de sesión</td>
                         <td>2024/01/01</td>
-                        <td>192.168.1.1</td>
+                        <td>admin</td>
+                        <td>Inicio de sesión</td>
                     </tr>
-                    <!-- Aquí puedes agregar más registros de auditoría -->
+                    <!-- Más registros de auditoría -->
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Botones de Exportación -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <button class="btn btn-danger btn-block">Exportar a PDF</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success btn-block">Exportar a Excel</button>
         </div>
     </div>
 </div>

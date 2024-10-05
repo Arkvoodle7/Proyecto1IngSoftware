@@ -4,48 +4,90 @@
 
 <div class="container-fluid px-4">
     <h1 class="mt-4">Gestión de Reportes</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Dashboard">Dashboard</a></li>
-        <li class="breadcrumb-item active">Reportes</li>
-    </ol>
+    <h3 class="mt-4"></h3>
+
+    <!-- Filtros de Reporte -->
     <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-filter me-1"></i>
+            Filtros para Generar Reportes
+        </div>
         <div class="card-body">
-            Aquí puedes gestionar los reportes. Usa la tabla a continuación para visualizar los reportes generados.
+            <form asp-action="GenerarReporte" method="post">
+                <div class="row">
+                    <!-- Filtro de tipo de reporte -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="tipoReporte">Tipo de Reporte</label>
+                            <select class="form-control" id="tipoReporte" name="tipoReporte">
+                                <option value="facturas">Facturas</option>
+                                <option value="ordenes">Órdenes de Compra</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Filtro de rango de fechas -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="fechaInicio">Fecha de Inicio</label>
+                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="fechaFin">Fecha de Fin</label>
+                            <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+
+    <!-- Tabla de Reportes Generados -->
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
-            Reportes Generados
+            Resultados del Reporte
         </div>
         <div class="card-body">
-            <table id="datatablesSimple">
+            <table id="datatablesSimple" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Nombre del Reporte</th>
-                        <th>Fecha de Generación</th>
-                        <th>Tipo de Reporte</th>
-                        <th>Acciones</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Cliente/Proveedor</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nombre del Reporte</th>
-                        <th>Fecha de Generación</th>
-                        <th>Tipo de Reporte</th>
-                        <th>Acciones</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     <tr>
-                        <td>Reporte de Ventas</td>
+                        <td>Paracetamol</td>
+                        <td>100</td>
+                        <td>Juan Pérez</td>
                         <td>2024/01/01</td>
-                        <td>Ventas</td>
-                        <td><a href="#">Ver</a> | <a href="#">Descargar</a></td>
+                        <td>$1000</td>
+                        <td>Aprobada</td>
                     </tr>
-                    <!-- Aquí puedes agregar más filas de reportes -->
+                    <!-- Más resultados -->
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Botones de Exportación -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <button class="btn btn-danger btn-block">Exportar a PDF</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-success btn-block">Exportar a Excel</button>
         </div>
     </div>
 </div>
