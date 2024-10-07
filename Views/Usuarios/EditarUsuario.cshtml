@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Editar Usuario</h1>
+    <div class="card mb-4 shadow-lg">
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="nombre" class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" id="nombre" value="Juan Pérez">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="correo" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="correo" value="juan.perez@example.com">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="rol" class="form-label">Rol</label>
+                        <select class="form-select" id="rol">
+                            <option value="Admin" selected>Admin</option>
+                            <option value="Usuario">Usuario</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="contrasena" placeholder="Ingrese la nueva contraseña">
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-md-block">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar Cambios</button>
+                    <a href="@Url.Action("Index", "Usuarios")" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
