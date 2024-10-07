@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Editar Orden de Compra";
+}
+
+<div class="container-fluid py-4">
+    <h1 class="text-warning mb-4">Editar Orden de Compra</h1>
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-warning text-white">
+            <h5><i class="fas fa-edit"></i> Modificar Orden</h5>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="numero" class="form-label">Número</label>
+                        <input type="number" class="form-control form-control-lg" id="numero" value="001">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="proveedor" class="form-label">Proveedor</label>
+                        <input type="number" class="form-control form-control-lg" id="proveedor" value="123">
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="producto" class="form-label">Producto</label>
+                    <input type="text" class="form-control form-control-lg" id="producto" value="Panadol">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="number" class="form-control form-control-lg" id="cantidad" value="60">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control form-control-lg" id="precio" value="8.50">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="total" class="form-label">Total</label>
+                        <input type="number" class="form-control form-control-lg" id="total" value="510.00">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="fechaCompra" class="form-label">Fecha de Compra</label>
+                    <input type="date" class="form-control form-control-lg" id="fechaCompra" value="2024-10-05">
+                </div>
+                <div class="mb-3">
+                    <label for="aplicada" class="form-label">Aplicada</label>
+                    <input type="text" class="form-control form-control-lg" id="aplicada" value="NO">
+                </div>
+                <button type="submit" class="btn btn-warning btn-lg w-100 shadow">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+</div>

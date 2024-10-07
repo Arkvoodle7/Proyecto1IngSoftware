@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Agregar Cliente";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Agregar Cliente</h1>
+    <div class="card mb-4 shadow-lg">
+        <div class="card-body">
+            <form>
+                <div class="col-md-6 mb-3">
+                    <label for="id" class="form-label">Identificación</label>
+                    <input type="number" class="form-control" id="id" placeholder="Ingrese el número de identificación">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="PApellido" class="form-label">Primer Apellido</label>
+                        <input type="text" class="form-control" id="PApellido" placeholder="Ingrese el primer apellido">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="SApellido" class="form-label">Segundo Apellido</label>
+                        <input type="text" class="form-control" id="SApellido" placeholder="Ingrese el segundo apellido">
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="number" class="form-control" id="telefono" placeholder="Ingrese el número de teléfono">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="correo" class="form-label">Correo electrónico</label>
+                    <input type="text" class="form-control" id="correo" placeholder="Ingrese el correo electrónico">
+                </div>
+                <div class="mb-3">
+                    <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control form-control-lg" id="fechaNacimiento">
+                </div>
+                <div class="d-grid gap-2 d-md-block">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
+                    <a href="@Url.Action("Index", "Ventas")" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
