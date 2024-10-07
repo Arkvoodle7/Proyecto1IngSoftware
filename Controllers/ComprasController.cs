@@ -20,7 +20,7 @@ namespace Proyecto1IngSoftware.Controllers
             return View();
         }
 
-        public IActionResult EditarProv(int id)
+        public IActionResult EditarProveedor(int id)
         {
             return View();
         }
