@@ -4,47 +4,84 @@
 
 <div class="container-fluid px-4">
     <h1 class="mt-4">Gestión de Ventas</h1>
-    <h3 class="mt-4"></h3>
-
-    <div class="card mb-4">
+    <div class="card mb-4 shadow-lg">
         <div class="card-body">
-            Aquí puedes gestionar las ventas. Usa la tabla a continuación para ver, agregar o editar las ventas realizadas.
+            <p class="lead">Administra las facturas. Puedes agregar, editar o eliminar facturas desde aquí.</p>
+            <a href="@Url.Action("Facturar", "Ventas")" class="btn btn-primary mb-3"><i class="fa-solid fa-file-circle-plus"></i> Facturar</a>
         </div>
     </div>
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table me-1"></i>
-            Ventas Registradas
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <i class="fas fa-dollar-sign"></i> Facturas
         </div>
         <div class="card-body">
-            <table id="datatablesSimple">
-                <thead>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
                     <tr>
+                        <th>Número</th>
+                        <th>Cliente</th>
                         <th>Producto</th>
-                        <th>Cantidad</th>
                         <th>Precio Unitario</th>
+                        <th>Cantidad</th>
                         <th>Total</th>
                         <th>Fecha de Venta</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Total</th>
-                        <th>Fecha de Venta</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     <tr>
-                        <td>Producto 1</td>
-                        <td>5</td>
-                        <td>$10.00</td>
-                        <td>$50.00</td>
-                        <td>2024/01/01</td>
+                        <td>F001</td>
+                        <td>1-0851-0456</td>
+                        <td>Panadol</td>
+                        <td>$8.50</td>
+                        <td>6</td>
+                        <td>$51.00</td>
+                        <td>2024/10/7</td>
+                        <td>
+                            <a href="@Url.Action("EditarFact", "Ventas", new { id = 1 })" class="btn btn-warning btn-sm me-2"><i class="fas fa-edit"></i> Editar</a>
+                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                        </td>
                     </tr>
-                    <!-- Aquí puedes agregar más filas de ventas -->
+                    <!-- Aquí puedes agregar más facturas dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card mb-4 shadow-lg">
+        <div class="card-body">
+            <p class="lead">Administra los clientes. Puedes agregar, editar o eliminar clientes desde aquí.</p>
+            <a href="@Url.Action("AgregarCliente", "Ventas")" class="btn btn-primary mb-3"><i class="fas fa-user-plus"></i> Agregar Cliente</a>
+        </div>
+    </div>
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <i class="fas fa-users me-1"></i> Clientes Registrados
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Identificación</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Correo electónico</th>
+                        <th>Edad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1-0851-0456</td>
+                        <td>Rosa Monge</td>
+                        <td>8956-4594</td>
+                        <td>rosaMonge65@example.com</td>
+                        <td>59</td>
+                        <td>
+                            <a href="@Url.Action("EditarCliente", "Ventas", new { id = 1 })" class="btn btn-warning btn-sm me-2"><i class="fas fa-edit"></i> Editar</a>
+                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</a>
+                        </td>
+                    </tr>
+                    <!-- Aquí puedes agregar más clientes dinámicamente -->
                 </tbody>
             </table>
         </div>
@@ -52,6 +89,5 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="~/js/datatables-simple-demo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" crossorigin="anonymous"></script>
 }

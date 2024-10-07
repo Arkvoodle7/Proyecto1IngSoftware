@@ -8,5 +8,25 @@ namespace Proyecto1IngSoftware.Controllers
         {
             return View();
         }
+
+        public IActionResult AgregarCliente()
+        {
+            return View();
+        }
+
+        public IActionResult Facturar()
+        {
+            return View();
+        }
+
+        public IActionResult EditarCliente(int id)
+        {
+            return View();
+        }
+
+        public IActionResult EditarFact(int id)
+        {
+            return View();
+        }
     }
 }

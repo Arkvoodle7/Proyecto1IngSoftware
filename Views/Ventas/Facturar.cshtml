@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Facturar";
+}
+
+<div class="container-fluid py-4">
+    <h1 class="text-success mb-4">Facturar</h1>
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-success text-white">
+            <h5><i class="fas fa-plus-circle"></i> Nueva Factura</h5>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="col-md-6 mb-3">
+                    <label for="numero" class="form-label">Número</label>
+                    <input type="text" class="form-control form-control-lg" id="numero" placeholder="Ingrese el número de factura">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="cliente" class="form-label">Cliente</label>
+                    <input type="number" class="form-control form-control-lg" id="cliente" placeholder="Ingrese el ID del cliente">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="producto" class="form-label">Producto</label>
+                    <input type="text" class="form-control form-control-lg" id="producto" placeholder="Ingrese el nombre del producto">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="number" class="form-control form-control-lg" id="cantidad" placeholder="Ingrese la cantidad">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control form-control-lg" id="precio" placeholder="Ingrese el precio">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="total" class="form-label">Total</label>
+                        <input type="number" class="form-control form-control-lg" id="total" placeholder="Total de factura">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="fechaVenta" class="form-label">Fecha de Venta</label>
+                    <input type="date" class="form-control form-control-lg" id="fechaVenta">
+                </div>
+                <button type="submit" class="btn btn-success btn-lg w-100 shadow">Guardar Factura</button>
+            </form>
+        </div>
+    </div>
+</div>

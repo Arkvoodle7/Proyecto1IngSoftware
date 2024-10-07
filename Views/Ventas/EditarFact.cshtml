@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Editar Factura";
+}
+
+<div class="container-fluid py-4">
+    <h1 class="text-warning mb-4">Editar Factura</h1>
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-warning text-white">
+            <h5><i class="fas fa-edit"></i> Modificar Factura</h5>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="col-md-6 mb-3">
+                    <label for="numero" class="form-label">Número</label>
+                    <input type="text" class="form-control form-control-lg" id="numero" value="F001">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="cliente" class="form-label">Cliente</label>
+                    <input type="text" class="form-control form-control-lg" id="cliente" value="1-0851-0456">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="producto" class="form-label">Producto</label>
+                    <input type="text" class="form-control form-control-lg" id="producto" value="Panadol">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="number" class="form-control form-control-lg" id="cantidad" value="6">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control form-control-lg" id="precio" value="8.50">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="total" class="form-label">Total</label>
+                        <input type="number" class="form-control form-control-lg" id="total" value="51.00">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="fechaVenta" class="form-label">Fecha de Venta</label>
+                    <input type="date" class="form-control form-control-lg" id="fechaVenta" value="2024-10-07">
+                </div>
+                <button type="submit" class="btn btn-warning btn-lg w-100 shadow">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+</div>
