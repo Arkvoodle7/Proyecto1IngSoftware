@@ -4,7 +4,7 @@ namespace Proyecto1IngSoftware.Controllers
 {
     public class UsuariosController : Controller
     {
-        // Acción para listar los usuarios
+        // Acción para listar los usuarios.
         public IActionResult Index()
         {
             return View();
