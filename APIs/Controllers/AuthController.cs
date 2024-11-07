@@ -22,17 +22,10 @@ namespace APIs.Controllers
             var user = await _loginService.ValidarLoginAsync(loginRequest.Correo, loginRequest.Contrasena);
             if (user == null)
             {
-                return Unauthorized(new { mensaje = "Credenciales incorrectas" });
+                return Unauthorized(new { mensaje = "Correo o contraseña incorrectos" });
             }
 
-            return Ok(new
-            {
-                Id = user.Id,
-                Nombre = user.Nombre,
-                Apellido1 = user.Apellido1,
-                Apellido2 = user.Apellido2,
-                Rol = user.Rol
-            });
+            return Ok(new { mensaje = "Inicio de sesión exitoso" });
         }
     }
 }
