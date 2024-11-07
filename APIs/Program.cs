@@ -13,7 +13,6 @@ namespace APIs
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Agrega los servicios de Swagger
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
@@ -21,7 +20,6 @@ namespace APIs
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
 
-            // Registro de ILoginService para inyección de dependencia
             builder.Services.AddScoped<ILoginService, LoginService>();
 
             var app = builder.Build();
@@ -32,7 +30,7 @@ namespace APIs
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-                    c.RoutePrefix = string.Empty; // Hace que Swagger sea la página principal
+                    c.RoutePrefix = string.Empty;
                 });
             }
 
