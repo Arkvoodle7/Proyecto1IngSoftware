@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using APIs.Data;
+
 namespace APIs
 {
     public class Program
@@ -6,26 +9,25 @@ namespace APIs
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Configurar la cadena de conexión y el contexto de base de datos
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Agregar servicios para controladores
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
 
+            // Configurar y construir la aplicación
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configurar el pipeline de la aplicación
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
