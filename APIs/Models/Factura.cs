@@ -1,4 +1,4 @@
-﻿namespace APIs.Models
+namespace APIs.Models
 {
     public class Factura
     {

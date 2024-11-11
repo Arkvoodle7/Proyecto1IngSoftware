@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using APIs.Data;
+using APIs.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
 namespace APIs
@@ -10,35 +14,36 @@ namespace APIs
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Configuración de DbContext y conexión
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseOracle(builder.Configuration.GetConnectionString("OracleConnection")));
 
-            // Agregar controladores y configurar Swagger
             builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API de Productos y Venta", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
+
+            builder.Services.AddScoped<ILoginService, LoginService>();
+            builder.Services.AddScoped<IFacturaService, FacturaService>();
+            builder.Services.AddScoped<IOrdenCompraService, OrdenCompraService>();
 
             var app = builder.Build();
 
-            // Habilitar Swagger solo en desarrollo
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API de Productos v1");
-                    //c.RoutePrefix = string.Empty; // Coloca Swagger en la raíz
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+                    c.RoutePrefix = string.Empty;
                 });
             }
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
-
             app.Run();
         }
     }
