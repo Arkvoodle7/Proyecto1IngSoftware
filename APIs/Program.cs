@@ -24,7 +24,7 @@ namespace APIs
             builder.Services.AddScoped<IFacturaService, FacturaService>();
             builder.Services.AddScoped<IOrdenCompraService, OrdenCompraService>();
 
-            var app = builder.Build();
+            var app = builder.Build();//
 
             if (app.Environment.IsDevelopment())
             {
