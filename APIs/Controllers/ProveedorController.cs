@@ -43,8 +43,13 @@ namespace APIs.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<Proveedor>> ActualizarProv(Proveedor prov)
+        public async Task<ActionResult<string>> ActualizarProv(Proveedor prov)
         {
+            if (!int.TryParse(prov.Id.ToString(), out _))
+            {
+                return BadRequest(new { error = "ID no válido. Debe ser un número entero." });
+            }
+
             try
             {
                 var proveedor = await _provService.ActualizarProvAsync(prov);
@@ -52,9 +57,12 @@ namespace APIs.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                // Solo devuelve el mensaje de error
+                return BadRequest(new { error = ex.Message });
             }
         }
+
+
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Proveedor>> EliminarProv(int id)
