@@ -1,8 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using APIs.Data;
 using APIs.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.OpenApi.Models;
 
 namespace APIs
@@ -12,6 +13,9 @@ namespace APIs
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseOracle(builder.Configuration.GetConnectionString("OracleConnection")));
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -24,10 +28,11 @@ namespace APIs
             builder.Services.AddScoped<IFacturaService, FacturaService>();
             builder.Services.AddScoped<IOrdenCompraService, OrdenCompraService>();
 
-            var app = builder.Build();//
+            var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
@@ -36,6 +41,7 @@ namespace APIs
                 });
             }
 
+            app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
