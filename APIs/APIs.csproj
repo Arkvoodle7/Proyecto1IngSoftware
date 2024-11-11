@@ -12,8 +12,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="6.21.150" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.150" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.6.22" />
-    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.6.0" />
   </ItemGroup>
 </Project>

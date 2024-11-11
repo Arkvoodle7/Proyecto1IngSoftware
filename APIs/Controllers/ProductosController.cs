@@ -27,7 +27,7 @@ namespace APIs.Controllers
 
         // GET: api/productos/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Producto>> GetProducto(int id)
+        public async Task<ActionResult<Producto>> GetProducto(long id)
         {
             var producto = await _context.Productos.FindAsync(id);
 
@@ -51,7 +51,7 @@ namespace APIs.Controllers
 
         // PUT: api/productos/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProducto(int id, Producto producto)
+        public async Task<IActionResult> PutProducto(long id, Producto producto)
         {
             if (id != producto.Codigo)
             {
@@ -81,7 +81,7 @@ namespace APIs.Controllers
 
         // DELETE: api/productos/{id}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProducto(int id)
+        public async Task<IActionResult> DeleteProducto(long id)
         {
             var producto = await _context.Productos.FindAsync(id);
             if (producto == null)
@@ -95,7 +95,7 @@ namespace APIs.Controllers
             return NoContent();
         }
 
-        private bool ProductoExists(int id)
+        private bool ProductoExists(long id)
         {
             return _context.Productos.Any(e => e.Codigo == id);
         }
