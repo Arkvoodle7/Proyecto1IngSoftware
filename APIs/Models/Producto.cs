@@ -2,10 +2,10 @@
 {
     public class Producto
     {
-        public int Codigo { get; set; }
+        public long Codigo { get; set; }
         public string Descripcion { get; set; }
         public decimal Precio { get; set; }
         public int UnidadesDisponibles { get; set; }
-        public int Disparador { get; set; }
+        public bool Disparador { get; set; } // Cambiado a bool
     }
 }
