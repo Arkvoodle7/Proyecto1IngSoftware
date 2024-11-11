@@ -36,9 +36,10 @@ namespace APIs.Services
             }
             catch (Exception ex)
             {
-                throw new Exception((ex.ToString()));
+                throw new Exception(ex.Message);
             }
         }
+
 
         public async Task<OrdenCompra> AgregarOCAsync(OrdenCompra oc)
         {

@@ -9,6 +9,7 @@ namespace APIs.Controllers
     public class ProveedorController : ControllerBase
     {
         private readonly IProveedorService _provService;
+
         public ProveedorController(IProveedorService provService)
         {
             _provService = provService;
@@ -34,17 +35,22 @@ namespace APIs.Controllers
             try
             {
                 var nuevo_prov = await _provService.AgregarProvAsync(prov);
-                return Ok("Proveedor registardo con éxito");
+                return Ok("Proveedor registrado con éxito");
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPut]
-        public async Task<ActionResult<Proveedor>> ActualizarProv(Proveedor prov)
+        public async Task<ActionResult<string>> ActualizarProv(Proveedor prov)
         {
+            if (!int.TryParse(prov.Id.ToString(), out _))
+            {
+                return BadRequest(new { error = "ID no válido. Debe ser un número entero." });
+            }
+
             try
             {
                 var proveedor = await _provService.ActualizarProvAsync(prov);
@@ -52,7 +58,8 @@ namespace APIs.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                // Solo devuelve el mensaje de error
+                return BadRequest(new { error = ex.Message });
             }
         }
 
@@ -66,7 +73,7 @@ namespace APIs.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -9,6 +9,7 @@ namespace APIs.Controllers
     public class ProdXOCController : ControllerBase
     {
         private readonly IProdXOCService _prodXOCService;
+
         public ProdXOCController(IProdXOCService prodXOCService)
         {
             _prodXOCService = prodXOCService;
@@ -24,7 +25,7 @@ namespace APIs.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -38,7 +39,7 @@ namespace APIs.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -49,6 +50,4 @@ namespace APIs.Controllers
             return Ok(productos);
         }
     }
-
-    
 }

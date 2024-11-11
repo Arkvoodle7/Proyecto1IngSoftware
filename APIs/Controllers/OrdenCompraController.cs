@@ -39,8 +39,9 @@ namespace APIs.Controllers
                 var nueva_orden = await _ordenCompraService.AgregarOCAsync(oc);
                 return Ok("Orden de compra generada con éxito");
             }
-            catch (Exception ex) { 
-                return BadRequest(ex);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 
@@ -54,7 +55,7 @@ namespace APIs.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -68,7 +69,7 @@ namespace APIs.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
     }

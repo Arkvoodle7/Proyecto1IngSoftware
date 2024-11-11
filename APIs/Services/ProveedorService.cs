@@ -15,22 +15,25 @@ namespace APIs.Services
         {
             using var connection = new OracleConnection(_connectionString);
             await connection.OpenAsync();
-            var query = "UPDATE PROVEEDORES SET NOMBRE = :NOMBRE WHERE ID = :ID";
 
-            try
+            var query = "UPDATE PROVEEDORES SET NOMBRE = :nombre WHERE ID = :id";
+
+            using var command = new OracleCommand(query, connection);
+            command.Parameters.Add("nombre", OracleDbType.Varchar2).Value = prov.Nombre;
+            command.Parameters.Add("id", OracleDbType.Int32).Value = prov.Id;
+
+            int filasAfectadas = await command.ExecuteNonQueryAsync();
+
+            if (filasAfectadas > 0)
             {
-                using var command = new OracleCommand(query, connection);
-                command.Parameters.Add("ID", OracleDbType.Int32).Value = prov.Id;
-                command.Parameters.Add("NOMBRE", OracleDbType.Varchar2).Value = prov.Nombre;
-                await command.ExecuteNonQueryAsync();
-
                 return prov;
             }
-            catch (Exception ex)
+            else
             {
-                throw new Exception((ex.ToString()));
+                throw new Exception("No se encontró el proveedor con el ID especificado.");
             }
         }
+
 
         public async Task<Proveedor> AgregarProvAsync(Proveedor prov)
         {

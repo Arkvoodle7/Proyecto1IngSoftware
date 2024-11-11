@@ -83,7 +83,7 @@ namespace APIs.Controllers
 
         // GET: api/ventas/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Factura>> GetFactura(int id)
+        public async Task<ActionResult<Factura>> GetFactura(long id)
         {
             var factura = await _context.Facturas.FindAsync(id);
 
