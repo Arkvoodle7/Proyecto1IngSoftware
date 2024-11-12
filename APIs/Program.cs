@@ -27,8 +27,9 @@ namespace APIs
             builder.Services.AddScoped<ILoginService, LoginService>();
             builder.Services.AddScoped<IFacturaService, FacturaService>();
             builder.Services.AddScoped<IOrdenCompraService, OrdenCompraService>();
-            builder.Services.AddScoped<IProveedorService, ProveedorService>(); // Servicio Proveedor
-            builder.Services.AddScoped<IProdXOCService, ProdXOCService>();     // Servicio Productos por Orden de Compra
+            builder.Services.AddScoped<IProveedorService, ProveedorService>();
+            builder.Services.AddScoped<IProdXOCService, ProdXOCService>();
+            builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
             var app = builder.Build();
 
