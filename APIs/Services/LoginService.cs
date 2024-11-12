@@ -33,7 +33,7 @@ namespace APIs.Services
                     Nombre = reader.GetString(1),
                     Apellido1 = reader.GetString(2),
                     Apellido2 = reader.GetString(3),
-                    Telefono = reader.GetString(4),
+                    Telefono = reader.GetDecimal(4),
                     Correo = reader.GetString(5),
                     Contrasena = reader.GetString(6),
                     Rol = reader.GetString(7)

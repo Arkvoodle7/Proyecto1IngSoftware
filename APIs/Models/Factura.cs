@@ -1,10 +1,10 @@
-﻿namespace APIs.Models
+namespace APIs.Models
 {
     public class Factura
     {
-        public int NumFact { get; set; }
+        public long NumFact { get; set; }
         public DateTime Fecha { get; set; }
         public decimal Total { get; set; }
-        public int IdCliente { get; set; }
+        public long IdCliente { get; set; }
     }
 }
