@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<Proyecto1IngSoftware.Models.UsuarioViewModel>
+
+@{
     ViewData["Title"] = "Gestión de Usuarios";
 }
 
@@ -21,28 +23,27 @@
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Rol</th>
-                        <th>Fecha de Registro</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Juan Pérez</td>
-                        <td>juan.perez@example.com</td>
-                        <td>Admin</td>
-                        <td>2023/09/15</td>
-                        <td>
-                            <a href="@Url.Action("EditarUsuario", "Usuarios", new { id = 1 })" class="btn btn-warning btn-sm me-2"><i class="fas fa-edit"></i> Editar</a>
-                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</a>
-                        </td>
-                    </tr>
-                    <!-- Aquí puedes agregar más usuarios dinámicamente -->
+                    @foreach (var usuario in Model)
+                    {
+                        <tr>
+                            <td>@usuario.Nombre</td>
+                            <td>@usuario.Correo</td>
+                            <td>@usuario.Rol</td>
+                            <td>
+                                <a href="@Url.Action("EditarUsuario", "Usuarios", new { id = usuario.Id })" class="btn btn-warning btn-sm me-2"><i class="fas fa-edit"></i> Editar</a>
+                                <form asp-action="EliminarUsuario" method="post" style="display:inline">
+                                    <input type="hidden" name="id" value="@usuario.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" crossorigin="anonymous"></script>
-}

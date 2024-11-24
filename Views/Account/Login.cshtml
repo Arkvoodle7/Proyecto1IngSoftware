@@ -13,10 +13,22 @@
                                 <h3 class="text-center font-weight-light my-4">Inicio de Sesión</h3>
                             </div>
                             <div class="card-body">
+                                @if (TempData["ErrorMessage"] != null)
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        @TempData["ErrorMessage"]
+                                    </div>
+                                }
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="alert alert-success" role="alert">
+                                        @TempData["SuccessMessage"]
+                                    </div>
+                                }
                                 <form asp-action="Login" method="post">
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="inputUsuario" type="text" name="Usuario" placeholder="Usuario" required />
-                                        <label for="inputUsuario">Usuario</label>
+                                        <input class="form-control" id="inputUsuario" type="email" name="Usuario" placeholder="Correo electrónico" required />
+                                        <label for="inputUsuario">Correo electrónico</label>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input class="form-control" id="inputPassword" type="password" name="Password" placeholder="Contraseña" required />

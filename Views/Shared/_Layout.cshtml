@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@{
+    var userRole = Context.Session.GetString("UserRole"); // Obtén el rol de la sesión
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -14,13 +19,14 @@
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <a class="navbar-brand ps-3" asp-controller="Home" asp-action="Index">Farmacia X</a>
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        </form>
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Cerrar sesión</a></li>
+                    <li>
+                        <!-- Enlace al método Logout -->
+                        <a class="dropdown-item" asp-controller="Login" asp-action="Logout">Cerrar sesión</a>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -36,42 +42,63 @@
                             Panel de Control
                         </a>
                         <div class="sb-sidenav-menu-heading">Gestión</div>
-                        <a class="nav-link" asp-controller="Inventarios" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
-                            Gestión de Inventarios
-                        </a>
-                        <a class="nav-link" asp-controller="Usuarios" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Gestión de Usuarios
-                        </a>
-                        <a class="nav-link" asp-controller="Compras" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
-                            Gestión de Compras
-                        </a>
-                        <a class="nav-link" asp-controller="Ventas" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-dollar-sign"></i></div>
-                            Gestión de Ventas
-                        </a>
+
+                        @if (userRole == "Empleado")
+                        {
+                            <a class="nav-link" asp-controller="Inventarios" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
+                                Gestión de Inventarios
+                            </a>
+                            <a class="nav-link" asp-controller="Ventas" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-dollar-sign"></i></div>
+                                Gestión de Ventas
+                            </a>
+                        }
+                        else if (userRole == "Administrador")
+                        {
+                            <a class="nav-link" asp-controller="Inventarios" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
+                                Gestión de Inventarios
+                            </a>
+                            <a class="nav-link" asp-controller="Usuarios" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Gestión de Usuarios
+                            </a>
+                            <a class="nav-link" asp-controller="Compras" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
+                                Gestión de Compras
+                            </a>
+                            <a class="nav-link" asp-controller="Ventas" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-dollar-sign"></i></div>
+                                Gestión de Ventas
+                            </a>
+                        }
 
                         <div class="sb-sidenav-menu-heading">Reportes</div>
-                        <a class="nav-link" asp-controller="Reportes" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
-                            Gestión de Reportes
-                        </a>
-                        <a class="nav-link" asp-controller="Auditoria" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
-                            Gestión de Auditoría
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Cuenta</div>
-                        <a class="nav-link" asp-controller="Login" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-sign-in-alt"></i></div>
-                            Inicio de Sesión
-                        </a>
+                        @if (userRole == "Administrador")
+                        {
+                            <a class="nav-link" asp-controller="Reportes" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
+                                Gestión de Reportes
+                            </a>
+                            <a class="nav-link" asp-controller="Auditoria" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+                                Gestión de Auditoría
+                            </a>
+                        }
+
+                        @if (userRole == null)
+                        {
+                            <a class="nav-link" asp-controller="Login" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-sign-in-alt"></i></div>
+                                Inicio de Sesión
+                            </a>
+                        }
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
                     <div class="small">Sesión actual:</div>
-                    Administrador
+                    @userRole
                 </div>
             </nav>
         </div>

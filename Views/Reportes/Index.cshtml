@@ -4,7 +4,6 @@
 
 <div class="container-fluid px-4">
     <h1 class="mt-4">Gestión de Reportes</h1>
-    <h3 class="mt-4"></h3>
 
     <!-- Filtros de Reporte -->
     <div class="card mb-4">
@@ -13,7 +12,7 @@
             Filtros para Generar Reportes
         </div>
         <div class="card-body">
-            <form asp-action="GenerarReporte" method="post">
+            <form id="reportForm">
                 <div class="row">
                     <!-- Filtro de tipo de reporte -->
                     <div class="col-md-4">
@@ -25,23 +24,10 @@
                             </select>
                         </div>
                     </div>
-                    <!-- Filtro de rango de fechas -->
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="fechaInicio">Fecha de Inicio</label>
-                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="fechaFin">Fecha de Fin</label>
-                            <input type="date" class="form-control" id="fechaFin" name="fechaFin">
-                        </div>
-                    </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+                        <button type="button" class="btn btn-primary" id="generarReporte">Generar Reporte</button>
                     </div>
                 </div>
             </form>
@@ -55,27 +41,18 @@
             Resultados del Reporte
         </div>
         <div class="card-body">
-            <table id="datatablesSimple" class="table table-striped">
+            <div id="errorMessage" class="alert alert-danger d-none"></div>
+            <table id="reportesTable" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Cliente/Proveedor</th>
+                        <th>Número</th>
                         <th>Fecha</th>
                         <th>Total</th>
-                        <th>Estado</th>
+                        <th>ID Cliente/Proveedor</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Paracetamol</td>
-                        <td>100</td>
-                        <td>Juan Pérez</td>
-                        <td>2024/01/01</td>
-                        <td>$1000</td>
-                        <td>Aprobada</td>
-                    </tr>
-                    <!-- Más resultados -->
+                    <!-- Las filas serán generadas dinámicamente por AJAX -->
                 </tbody>
             </table>
         </div>
@@ -84,15 +61,139 @@
     <!-- Botones de Exportación -->
     <div class="row mb-4">
         <div class="col-md-6">
-            <button class="btn btn-danger btn-block">Exportar a PDF</button>
+            <button class="btn btn-danger btn-block" id="exportPdf">Exportar a PDF</button>
         </div>
         <div class="col-md-6">
-            <button class="btn btn-success btn-block">Exportar a Excel</button>
+            <button class="btn btn-success btn-block" id="exportExcel">Exportar a Excel</button>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="~/js/datatables-simple-demo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            //funcion para generar el reporte
+            $('#generarReporte').click(function () {
+                const tipoReporte = $('#tipoReporte').val();
+
+                if (tipoReporte === 'facturas') {
+                    generarReporteFacturas();
+                } else if (tipoReporte === 'ordenes') {
+                    generarReporteOrdenes();
+                }
+            });
+
+            function generarReporteFacturas() {
+                $.ajax({
+                    url: "https://localhost:7015/api/Factura/facturas", //URL de la API de Facturas
+                    method: "GET",
+                    success: function (response) {
+                        if (typeof response === "string") {
+                            try {
+                                response = JSON.parse(response);
+                            } catch (e) {
+                                mostrarError("Error al procesar la respuesta de la API de facturas.");
+                                console.error("Error al analizar la respuesta JSON:", e);
+                                return;
+                            }
+                        }
+
+                        //procesar datos si la respuesta ya es un objeto JSON valido
+                        mostrarFacturasEnTabla(response);
+                    },
+                    error: function (xhr, status, error) {
+                        mostrarError("Error al cargar las facturas.");
+                        console.error("Error al cargar las facturas:", xhr, status, error);
+                    }
+                });
+            }
+
+            function generarReporteOrdenes() {
+                $.ajax({
+                    url: "https://localhost:7015/api/OrdenCompra/ordenes", //URL de la API de Ordenes de Compra
+                    method: "GET",
+                    success: function (response) {
+                        if (typeof response === "string") {
+                            try {
+                                response = JSON.parse(response);
+                            } catch (e) {
+                                mostrarError("Error al procesar la respuesta de la API de órdenes de compra.");
+                                console.error("Error al analizar la respuesta JSON:", e);
+                                return;
+                            }
+                        }
+
+                        //procesar datos si la respuesta ya es un objeto JSON valido
+                        mostrarOrdenesEnTabla(response);
+                    },
+                    error: function (xhr, status, error) {
+                        mostrarError("Error al cargar las órdenes de compra.");
+                        console.error("Error al cargar las órdenes de compra:", xhr, status, error);
+                    }
+                });
+            }
+
+            function mostrarFacturasEnTabla(facturas) {
+                const tableBody = $("#reportesTable tbody");
+                tableBody.empty(); //limpia la tabla antes de agregar datos
+
+                //itera sobre las facturas y las agrega a la tabla
+                facturas.forEach(factura => {
+                    const fechaFormateada = new Date(factura.fecha).toLocaleDateString("es-ES");
+                    const totalFormateado = factura.total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+                    tableBody.append(`
+                        <tr>
+                            <td>${factura.numFact}</td>
+                            <td>${fechaFormateada}</td>
+                            <td>${totalFormateado}</td>
+                            <td>${factura.idCliente}</td>
+                        </tr>
+                    `);
+                });
+            }
+
+            function mostrarOrdenesEnTabla(ordenes) {
+                const tableBody = $("#reportesTable tbody");
+                tableBody.empty(); //limpia la tabla antes de agregar datos
+
+                //itera sobre las ordenes de compra y las agrega a la tabla
+                ordenes.forEach(orden => {
+                    const fechaFormateada = new Date(orden.fecha).toLocaleDateString("es-ES");
+                    const totalFormateado = orden.total.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+                    tableBody.append(`
+                        <tr>
+                            <td>${orden.numOC}</td>
+                            <td>${fechaFormateada}</td>
+                            <td>${totalFormateado}</td>
+                            <td>${orden.idProv}</td>
+                        </tr>
+                    `);
+                });
+            }
+
+            //funcion para mostrar mensajes de error en la tabla
+            function mostrarError(mensaje) {
+                const tableBody = $("#reportesTable tbody");
+                tableBody.empty(); //limpia la tabla
+                tableBody.append(`
+                    <tr>
+                        <td colspan="4" class="text-danger text-center">${mensaje}</td>
+                    </tr>
+                `);
+            }
+
+            //funcionalidad de exportar a PDF
+            $('#exportPdf').click(function () {
+                alert("La funcionalidad de exportar a PDF aún no está implementada.");
+            });
+
+            //funcionalidad de exportar a Excel
+            $('#exportExcel').click(function () {
+                alert("La funcionalidad de exportar a Excel aún no está implementada.");
+            });
+        });
+    </script>
 }
