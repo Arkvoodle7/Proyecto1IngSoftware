@@ -5,45 +5,99 @@
 <div class="container-fluid py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-primary">Gestión de Inventarios</h1>
-        <a href="@Url.Action("AgregarProd", "Inventarios")" class="btn btn-success btn-lg shadow">Agregar Producto</a>
+        <!-- Botón para redirigir a la vista de agregar producto -->
+        <a href="@Url.Action("AgregarProd", "Inventarios")" class="btn btn-success btn-lg shadow">
+            Agregar Producto
+        </a>
     </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
 
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
             <h5><i class="fas fa-box"></i> Lista de Productos</h5>
         </div>
         <div class="card-body">
-            <table id="datatablesSimple" class="table table-hover table-bordered">
+            <table id="tablaProductos" class="table table-hover table-bordered">
                 <thead class="table-dark">
                     <tr>
-                        <th>Producto</th>
-                        <th>Categoría</th>
-                        <th>Cantidad</th>
+                        <th>Código</th>
+                        <th>Descripción</th>
                         <th>Precio</th>
-                        <th>Fecha de Ingreso</th>
+                        <th>Unidades Disponibles</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Producto 1</td>
-                        <td>Categoría 1</td>
-                        <td>100</td>
-                        <td>$10.00</td>
-                        <td>2023/09/15</td>
-                        <td>
-                            <a href="@Url.Action("EditarProd", "Inventarios")" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Editar</a>
-                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</a>
-                        </td>
-                    </tr>
-                    <!-- Más productos aquí -->
+                <tbody id="productosBody">
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="~/js/datatables-simple-demo.js"></script>
-}
+<script>
+    function cargarProductos() {
+        fetch('/Inventarios/ObtenerProductos')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('productosBody');
+                tbody.innerHTML = '';
+                data.forEach(producto => {
+                    tbody.innerHTML += `
+                            <tr>
+                                <td>${producto.codigo}</td>
+                                <td>${producto.descripcion}</td>
+                                <td>${producto.precio.toFixed(2)}</td>
+                                <td>${producto.unidadesDisponibles}</td>
+                                <td>${producto.disparador ? 'Activo' : 'Inactivo'}</td>
+                                <td>
+                                    <a href="/Inventarios/EditarProd/${producto.codigo}" class="btn btn-warning btn-sm">Editar</a>
+                                    <button class="btn btn-danger btn-sm" onclick="confirmarEliminacion(${producto.codigo})">Eliminar</button>
+                                </td>
+                            </tr>
+                        `;
+                });
+            })
+            .catch(err => {
+                alert("Error al cargar los productos.");
+                console.error(err);
+            });
+    }
+
+    function confirmarEliminacion(id) {
+        if (confirm("¿Está seguro de que desea eliminar este producto?")) {
+            eliminarProducto(id);
+        }
+    }
+
+    function eliminarProducto(id) {
+        fetch(`/Inventarios/EliminarProducto/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Producto eliminado exitosamente.");
+                    cargarProductos(); // Recargar la tabla
+                } else {
+                    alert("Error al eliminar el producto.");
+                }
+            })
+            .catch(err => {
+                alert("Error al conectar con el servidor.");
+                console.error(err);
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', cargarProductos);
+</script>
