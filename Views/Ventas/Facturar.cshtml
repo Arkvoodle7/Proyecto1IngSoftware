@@ -5,44 +5,173 @@
 <div class="container-fluid py-4">
     <h1 class="text-success mb-4">Facturar</h1>
 
-    <div class="card shadow-lg">
-        <div class="card-header bg-success text-white">
-            <h5><i class="fas fa-plus-circle"></i> Nueva Factura</h5>
+    <!-- Mensajes de error o éxito -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <form asp-action="Facturar" method="post">
+        <!-- ID del Cliente -->
+        <div class="mb-3">
+            <label for="idCliente" class="form-label">ID del Cliente</label>
+            <input type="number" class="form-control" id="idCliente" name="idCliente" placeholder="Ingrese el ID del cliente" required />
         </div>
-        <div class="card-body">
-            <form>
-                <div class="col-md-6 mb-3">
-                    <label for="numero" class="form-label">Número</label>
-                    <input type="text" class="form-control form-control-lg" id="numero" placeholder="Ingrese el número de factura">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="cliente" class="form-label">Cliente</label>
-                    <input type="number" class="form-control form-control-lg" id="cliente" placeholder="Ingrese el ID del cliente">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="producto" class="form-label">Producto</label>
-                    <input type="text" class="form-control form-control-lg" id="producto" placeholder="Ingrese el nombre del producto">
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="cantidad" class="form-label">Cantidad</label>
-                        <input type="number" class="form-control form-control-lg" id="cantidad" placeholder="Ingrese la cantidad">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="precio" class="form-label">Precio</label>
-                        <input type="number" class="form-control form-control-lg" id="precio" placeholder="Ingrese el precio">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="total" class="form-label">Total</label>
-                        <input type="number" class="form-control form-control-lg" id="total" placeholder="Total de factura">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="fechaVenta" class="form-label">Fecha de Venta</label>
-                    <input type="date" class="form-control form-control-lg" id="fechaVenta">
-                </div>
-                <button type="submit" class="btn btn-success btn-lg w-100 shadow">Guardar Factura</button>
-            </form>
+
+        <!-- Seleccionar Producto -->
+        <div class="row">
+            <div class="col-md-8 mb-3">
+                <label for="productos" class="form-label">Seleccionar Producto</label>
+                <select class="form-select" id="productos">
+                    <!-- Opciones cargadas dinámicamente -->
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="cantidadProducto" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" id="cantidadProducto" value="1" min="1" placeholder="Cantidad" />
+            </div>
         </div>
-    </div>
+
+        <!-- Botón para agregar productos -->
+        <button type="button" class="btn btn-primary mb-3" id="agregarProducto">Agregar Producto</button>
+
+        <!-- Tabla Temporal de Productos -->
+        <div class="card shadow-lg mb-3">
+            <div class="card-header bg-secondary text-white">Productos Agregados</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Subtotal</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productosAgregadosBody">
+                        <!-- Productos agregados dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Resumen -->
+        <div class="mb-3">
+            <label for="total" class="form-label">Total</label>
+            <input type="number" class="form-control" id="total" name="total" readonly />
+        </div>
+
+        <!-- Pago y Cambio -->
+        <div class="mb-3">
+            <label for="montoPago" class="form-label">Monto de Pago</label>
+            <input type="number" class="form-control" id="montoPago" placeholder="Monto entregado por el cliente" required />
+        </div>
+        <div class="mb-3">
+            <label for="cambio" class="form-label">Cambio</label>
+            <input type="number" class="form-control" id="cambio" readonly placeholder="Cambio a devolver" />
+        </div>
+
+        <!-- Enviar Productos Agregados al Backend -->
+        <input type="hidden" id="productosIds" name="productosIds" />
+
+        <!-- Botón para finalizar la compra -->
+        <button type="submit" class="btn btn-success btn-lg w-100">Finalizar Compra</button>
+    </form>
 </div>
+
+<script>
+    let productosAgregados = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Cargar productos desde la API
+        fetch('https://localhost:7015/api/productos') // Ajusta la URL según tu API
+            .then(response => response.json())
+            .then(data => {
+                const productosSelect = document.getElementById('productos');
+                data.forEach(producto => {
+                    const option = document.createElement('option');
+                    option.value = JSON.stringify(producto); // Serializamos el producto
+                    option.text = `${producto.descripcion} - ${producto.precio.toFixed(2)} USD`;
+                    productosSelect.appendChild(option);
+                });
+            })
+            .catch(err => console.error('Error al cargar los productos:', err));
+
+        // Agregar productos a la tabla
+        document.getElementById('agregarProducto').addEventListener('click', () => {
+            const productosSelect = document.getElementById('productos');
+            const cantidadInput = document.getElementById('cantidadProducto');
+
+            const productoSeleccionado = JSON.parse(productosSelect.value);
+            const cantidad = parseInt(cantidadInput.value);
+
+            if (cantidad <= 0) {
+                alert('La cantidad debe ser mayor a 0.');
+                return;
+            }
+
+            const subtotal = cantidad * productoSeleccionado.precio;
+
+            productosAgregados.push({
+                codigo: productoSeleccionado.codigo,
+                descripcion: productoSeleccionado.descripcion,
+                cantidad: cantidad,
+                precio: productoSeleccionado.precio,
+                subtotal: subtotal
+            });
+
+            actualizarTablaProductos();
+        });
+
+        // Calcular cambio en tiempo real
+        document.getElementById('montoPago').addEventListener('input', () => {
+            const total = parseFloat(document.getElementById('total').value) || 0;
+            const montoPago = parseFloat(document.getElementById('montoPago').value) || 0;
+
+            if (montoPago >= total) {
+                const cambio = montoPago - total;
+                document.getElementById('cambio').value = cambio.toFixed(2);
+            } else {
+                document.getElementById('cambio').value = '0.00';
+            }
+        });
+    });
+
+    function actualizarTablaProductos() {
+        const tbody = document.getElementById('productosAgregadosBody');
+        const totalInput = document.getElementById('total');
+        const productosIdsInput = document.getElementById('productosIds');
+
+        tbody.innerHTML = '';
+        let total = 0;
+
+        productosAgregados.forEach(producto => {
+            total += producto.subtotal;
+
+            tbody.innerHTML += `
+                    <tr>
+                        <td>${producto.descripcion}</td>
+                        <td>${producto.cantidad}</td>
+                        <td>${producto.precio.toFixed(2)}</td>
+                        <td>${producto.subtotal.toFixed(2)}</td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminarProducto(${producto.codigo})">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+        });
+
+        totalInput.value = total.toFixed(2);
+        productosIdsInput.value = productosAgregados.map(p => p.codigo).join(',');
+    }
+
+    function eliminarProducto(codigo) {
+        productosAgregados = productosAgregados.filter(p => p.codigo !== codigo);
+        actualizarTablaProductos();
+    }
+</script>

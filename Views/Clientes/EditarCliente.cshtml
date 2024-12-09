@@ -1,0 +1,48 @@
+﻿@model Proyecto1IngSoftware.Models.UsuarioViewModel
+
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Editar Cliente</h1>
+    <div class="card mb-4 shadow-lg">
+        <div class="card-body">
+            <form asp-controller="Clientes" asp-action="EditarCliente" method="post">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="Nombre" value="@Model.Nombre" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="primerApellido" class="form-label">Primer Apellido</label>
+                        <input type="text" class="form-control" id="primerApellido" name="Apellido1" value="@Model.Apellido1" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="segundoApellido" class="form-label">Segundo Apellido</label>
+                        <input type="text" class="form-control" id="segundoApellido" name="Apellido2" value="@Model.Apellido2" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="number" class="form-control" id="telefono" name="Telefono" value="@Model.Telefono" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="correo" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="correo" name="Correo" value="@Model.Correo" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="contrasena" name="Contrasena" value="@Model.Contrasena" required />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Cambios</button>
+                <a href="@Url.Action("Index", "Ventas")" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
