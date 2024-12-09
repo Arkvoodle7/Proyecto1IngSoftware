@@ -1,76 +1,29 @@
-﻿@{
+@{
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Panel de Control</h1>
-    <h3 class="mt-4"></h3>
-
-    <!-- KPIs Section -->
-    <div class="row">
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-primary text-white mb-4">
-                <div class="card-body">Productos en Inventario: 120</div>
+<div class="container-fluid px-4 text-center">
+    <h1 class="display-3 mt-5">Farmacia X</h1>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Nuestra Misión</h5>
+                    <p class="card-text">En Farmacia X nos esforzamos por brindar medicamentos y servicios de salud accesibles y de la mejor calidad para la comunidad.</p>
+                </div>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-warning text-white mb-4">
-                <div class="card-body">Órdenes Pendientes: 5</div>
+        <div class="col-md-6">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Nuestra Visión</h5>
+                    <p class="card-text">Ser la farmacia de referencia en la región, ofreciendo un servicio personalizado y profesional que garantice la satisfacción de nuestros clientes.</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Inventario Crítico -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-exclamation-triangle"></i>
-            Productos con Inventario Crítico
-        </div>
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Unidades Disponibles</th>
-                        <th>Nivel Mínimo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Paracetamol</td>
-                        <td>5</td>
-                        <td>10</td>
-                    </tr>
-                    <!-- Más productos aquí -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Historial de Actividades -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-history"></i>
-            Actividades Recientes
-        </div>
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Usuario</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>2024/01/01</td>
-                        <td>admin</td>
-                        <td>Registró una venta</td>
-                    </tr>
-                    <!-- Más actividades aquí -->
-                </tbody>
-            </table>
-        </div>
+    <div class="text-center mt-4">
+        <p class="lead">Est. 2024</p>
     </div>
 </div>
