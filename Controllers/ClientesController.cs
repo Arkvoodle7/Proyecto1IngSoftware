@@ -86,16 +86,27 @@ namespace Proyecto1IngSoftware.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarCliente(UsuarioViewModel cliente)
         {
+            Console.WriteLine($"ID recibido: {cliente.Id}");
+            Console.WriteLine($"Nombre recibido: {cliente.Nombre}");
+            Console.WriteLine($"Correo recibido: {cliente.Correo}");
+
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("Modelo inválido al editar cliente.");
+                Console.WriteLine("Modelo inválido.");
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine($"Error: {error.ErrorMessage}");
+                }
+                TempData["ErrorMessage"] = "Los datos proporcionados no son válidos.";
                 return View(cliente);
             }
 
             try
             {
-                cliente.Rol = "Cliente"; // Asegurar que el rol sea "Cliente"
+                cliente.Rol = "Cliente"; // Asegurar que el rol sea correcto
                 var response = await _httpClient.PutAsJsonAsync("Usuario", cliente);
+
+                Console.WriteLine($"Respuesta de la API: {response.StatusCode}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -103,17 +114,19 @@ namespace Proyecto1IngSoftware.Controllers
                     return RedirectToAction("Index", "Ventas");
                 }
 
-                Console.WriteLine($"Error al actualizar cliente. Código de respuesta: {response.StatusCode}");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Error al actualizar cliente. Respuesta: {errorContent}");
                 TempData["ErrorMessage"] = "Error al actualizar el cliente.";
                 return View(cliente);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al conectar con la API: {ex.Message}");
-                TempData["ErrorMessage"] = "Error al conectar con el servidor.";
+                Console.WriteLine($"Excepción al conectar con la API: {ex.Message}");
+                TempData["ErrorMessage"] = "No se pudo conectar con el servidor.";
                 return View(cliente);
             }
         }
+
 
         // Método para eliminar un cliente
         [HttpPost]
