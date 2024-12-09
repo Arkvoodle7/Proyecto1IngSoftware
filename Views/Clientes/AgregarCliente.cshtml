@@ -1,0 +1,97 @@
+﻿@model Proyecto1IngSoftware.Models.UsuarioViewModel
+
+@{
+    ViewData["Title"] = "Registrar Cliente";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Registrar Cliente</h1>
+    <div class="card mb-4 shadow-lg">
+        <div class="card-body">
+            <!-- Muestra los errores de validación -->
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            <form asp-controller="Clientes" asp-action="RegistrarCliente" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="id" class="form-label">Cédula</label>
+                        <input type="number" class="form-control" id="cedula" name="Id" value="@Model?.Id" placeholder="Ingrese la cédula" required />
+                        <button type="button" class="btn btn-secondary mt-2" id="buscarCedula">Buscar Cédula</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="Nombre" value="@Model?.Nombre" readonly />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="primerApellido" class="form-label">Primer Apellido</label>
+                        <input type="text" class="form-control" id="primerApellido" name="Apellido1" value="@Model?.Apellido1" readonly />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="segundoApellido" class="form-label">Segundo Apellido</label>
+                        <input type="text" class="form-control" id="segundoApellido" name="Apellido2" value="@Model?.Apellido2" readonly />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="number" class="form-control" id="telefono" name="Telefono" value="@Model?.Telefono" placeholder="Ingrese el teléfono" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="correo" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="correo" name="Correo" value="@Model?.Correo" placeholder="Ingrese el correo electrónico" required />
+                    </div>
+                </div>
+                <!-- Campo oculto para Contraseña -->
+                <input type="hidden" name="Contrasena" value="defaultPassword123" />
+                <!-- Campo oculto para Rol -->
+                <input type="hidden" name="Rol" value="Cliente" />
+
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Registrar</button>
+                <a href="@Url.Action("Index", "Ventas")" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('buscarCedula').addEventListener('click', function () {
+            const cedula = document.getElementById('cedula').value;
+            if (!cedula) {
+                alert("Por favor ingrese una cédula válida.");
+                return;
+            }
+
+            fetch(`https://apis.gometa.org/cedulas/${cedula}`)
+                .then(response => response.json())
+                .then(data => {
+                    const nombreCompleto = data.nombre;
+
+                    if (nombreCompleto) {
+                        const partesNombre = nombreCompleto.split(" ");
+                        document.getElementById('nombre').value = partesNombre.slice(0, partesNombre.length - 2).join(" ");
+                        document.getElementById('primerApellido').value = partesNombre[partesNombre.length - 2] || "";
+                        document.getElementById('segundoApellido').value = partesNombre[partesNombre.length - 1] || "";
+                    } else {
+                        alert("No se encontró información válida para esta cédula.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al buscar la cédula:', error);
+                    alert("No se encontró información para la cédula ingresada.");
+                });
+        });
+    </script>
+}

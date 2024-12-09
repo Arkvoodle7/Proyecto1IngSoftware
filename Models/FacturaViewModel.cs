@@ -6,6 +6,7 @@
         public DateTime Fecha { get; set; }
         public decimal Total { get; set; }
         public long IdCliente { get; set; }
+        public List<ProductoViewModel> Productos { get; set; }
     }
 
 }
