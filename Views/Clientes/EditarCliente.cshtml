@@ -9,7 +9,12 @@
     <div class="card mb-4 shadow-lg">
         <div class="card-body">
             <form asp-controller="Clientes" asp-action="EditarCliente" method="post">
-                <input type="hidden" name="Id" value="@Model.Id" />
+                <!-- Campo oculto para el ID del cliente -->
+                <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+
+                <!-- Campo oculto para el Rol -->
+                <input type="hidden" id="Rol" name="Rol" value="Cliente" />
+
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
@@ -40,8 +45,14 @@
                         <input type="password" class="form-control" id="contrasena" name="Contrasena" value="@Model.Contrasena" required />
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Cambios</button>
-                <a href="@Url.Action("Index", "Ventas")" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Cancelar</a>
+
+                <!-- Botones de acción -->
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <a href="@Url.Action("Index", "Ventas")" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancelar
+                </a>
             </form>
         </div>
     </div>
